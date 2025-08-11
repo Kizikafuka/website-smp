@@ -4,14 +4,16 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Navbar from "./components/Navbar.jsx";
 import LandingPage from './pages/landing-page.jsx';
+import Footer from "./components/footer.jsx";
 
 export default function App() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
+      <main className="flex-1">
       <LandingPage />
-      <main className="mx-auto max-w-screen-2xl px-4 sm:px-8 lg:px-24 py-6">
       </main>
+      <Footer />
     </div>
   );
 }

@@ -99,7 +99,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 bg-base-100/90 backdrop-blur shadow-sm">
       <div className="navbar max-w-screen-2xl mx-auto px-4 sm:px-8 lg:px-24">
         {/* START: Logo + hamburger (mobile) */}
-        <div className="navbar-start">
+        <div className="navbar-start gap-3 lg:gap-4">
           {/* Mobile dropdown */}
           <div
             ref={mobileRef}
