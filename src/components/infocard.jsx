@@ -21,7 +21,7 @@ export default function InfoCard({
         <h2 className="card-title text-xl sm:text-2xl flex items-start gap-2">
           <span className="flex-1">{judul}</span>
           {kategori && (
-            <div className="badge bg-yellow-400 text-black">{kategori}</div>
+            <div className="badge badge-warning">{kategori}</div>
           )}
         </h2>
 

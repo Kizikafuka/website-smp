@@ -63,6 +63,42 @@ export default function Footer() {
             </svg>
             Info@Smpn10-Bpn.Sch.Id
           </a>
+
+         {/* Alamat */}
+<a
+  href="https://maps.app.goo.gl/SrctXn6fTaAzm4Lx6"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-white/90 flex items-start gap-2 max-w-sm leading-tight hover:text-white transition"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-4 h-4 mt-0.5 shrink-0"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M12 11a3 3 0 100-6 3 3 0 000 6z"
+    />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M12 22s8-6.6 8-12a8 8 0 10-16 0c0 5.4 8 12 8 12z"
+    />
+  </svg>
+  <span>
+    Jl. Marsma R. Iswahyudi No.38B, Sungai Nangka
+    <span className="block">
+      Balikpapan Selatan, Kota Balikpapan, Kaltim 76114
+    </span>
+  </span>
+</a>
+
         </nav>
       </footer>
 
