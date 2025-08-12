@@ -58,11 +58,11 @@ export default function Navbar() {
 
   // menu data
   const profilItems = [
-    { href: "/tentang", label: "Tentang" },
-    { href: "/visi-misi", label: "Visi & Misi" },
-    { href: "/guru-staff", label: "Guru & Staf" },
-    { href: "/galeri", label: "Galeri" },
-    { href: "/berita", label: "Berita" },
+    { href: "/profil/tentang", label: "Tentang" },
+    // { href: "/visi-misi", label: "Visi & Misi" },
+    { href: "/profil/guru-staff", label: "Guru & Staf" },
+    { href: "/profil/galeri", label: "Galeri" },
+    { href: "/profil/berita", label: "Berita" },
   ];
   const akademikItems = [
     { href: "/akademik/informasi", label: "Informasi" },
@@ -71,8 +71,8 @@ export default function Navbar() {
     { href: "/akademik/video", label: "Video Pembelajaran" },
   ];
   const akunItems = [
-    { href: "/login", label: "Login" },
-    { href: "/daftar", label: "Daftar" },
+    { href: "/akun/login", label: "Login" },
+    { href: "/akun/daftar", label: "Daftar" },
   ];
 
   return (
