@@ -20,9 +20,7 @@ export default function InfoCard({
         {/* Judul + Kategori (badge top-aligned) */}
         <h2 className="card-title text-xl sm:text-2xl flex items-start gap-2">
           <span className="flex-1">{judul}</span>
-          {kategori && (
-            <div className="badge badge-warning">{kategori}</div>
-          )}
+          {kategori && <div className="badge badge-warning">{kategori}</div>}
         </h2>
 
         {/* Deskripsi (ellipsis 2 baris) */}

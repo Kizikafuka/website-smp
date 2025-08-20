@@ -2,5 +2,12 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-html, body, #root { height: 100%; }
-body { font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    sans-serif;
+}

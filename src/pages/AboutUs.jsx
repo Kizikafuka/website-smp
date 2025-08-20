@@ -1,7 +1,7 @@
 // src/pages/about-us.jsx
 import calendarIcon from "../assets/icons/calendar.svg";
 import clock from "../assets/icons/clock.svg";
-import mapPin from "../assets/icons/MapPin.svg";
+import mapPin from "../assets/icons/map-pin.svg";
 import kepalaSekolahImg from "../assets/images/kepsek.png";
 
 export default function AboutUs() {
@@ -22,10 +22,10 @@ export default function AboutUs() {
             </h1>
 
             <p className="text-base sm:text-lg leading-relaxed">
-              Assalamualaikum warahmatullahi wabarakatuh. Selamat datang di website
-              resmi SMP Negeri 10 Balikpapan. Website ini kami hadirkan sebagai media
-              informasi dan komunikasi yang efektif untuk siswa, guru, orang tua, serta
-              masyarakat umum.
+              Assalamualaikum warahmatullahi wabarakatuh. Selamat datang di
+              website resmi SMP Negeri 10 Balikpapan. Website ini kami hadirkan
+              sebagai media informasi dan komunikasi yang efektif untuk siswa,
+              guru, orang tua, serta masyarakat umum.
             </p>
 
             <div className="mt-4 space-y-2 text-sm sm:text-base">
@@ -49,7 +49,9 @@ export default function AboutUs() {
       {/* Visi & Misi */}
       <section className="mt-[72px] px-4 sm:px-8 lg:px-24">
         <div className="max-w-screen-2xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-extrabold mb-6">Visi &amp; Misi</h2>
+          <h2 className="text-2xl sm:text-3xl font-extrabold mb-6 text-center sm:text-left">
+            Visi &amp; Misi
+          </h2>
 
           <div className="grid gap-6 md:grid-cols-2">
             {/* Visi */}
@@ -57,7 +59,8 @@ export default function AboutUs() {
               <div className="card-body">
                 <h3 className="card-title">Visi</h3>
                 <p className="text-base leading-relaxed">
-                  “Menjadi sekolah yang berkarakter, berprestasi, dan berwawasan lingkungan.”
+                  “Menjadi sekolah yang berkarakter, berprestasi, dan berwawasan
+                  lingkungan.”
                 </p>
               </div>
             </div>
@@ -68,7 +71,10 @@ export default function AboutUs() {
                 <h3 className="card-title">Misi</h3>
                 <ul className="list-disc pl-5 space-y-2">
                   <li>Menumbuhkan akhlak mulia dan budaya disiplin.</li>
-                  <li>Mengembangkan proses belajar yang aktif, kreatif, dan menyenangkan.</li>
+                  <li>
+                    Mengembangkan proses belajar yang aktif, kreatif, dan
+                    menyenangkan.
+                  </li>
                   <li>Mendorong prestasi akademik dan non-akademik.</li>
                   <li>Mewujudkan lingkungan sekolah yang bersih dan hijau.</li>
                 </ul>
@@ -81,7 +87,9 @@ export default function AboutUs() {
       {/* Lokasi / Google Maps */}
       <section className="mt-[72px] px-4 sm:px-8 lg:px-24 mb-[72px]">
         <div className="max-w-screen-2xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-extrabold mb-6">Lokasi Sekolah</h2>
+          <h2 className="text-2xl sm:text-3xl font-extrabold mb-6 text-center sm:text-left">
+            Lokasi Sekolah
+          </h2>
 
           {/* peta responsif */}
           <div className="rounded-lg overflow-hidden border border-base-200">

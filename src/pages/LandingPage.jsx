@@ -1,7 +1,9 @@
 // src/pages/LandingPage.jsx
+import { Link } from "react-router-dom";
 import heroImg from "../assets/images/hero.jpg";
-import InfoCard from "../components/infocard.jsx";
-import NewsCard from "../components/newscard.jsx";
+import InfoCard from "../components/InfoCard.jsx";
+import NewsCard from "../components/NewsCard.jsx";
+import { news } from "../data/news.js";
 
 export default function LandingPage() {
   const dataInformasi = [
@@ -29,29 +31,9 @@ export default function LandingPage() {
     },
   ];
 
-const dataBerita = [
-  {
-    img: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?q=80&w=1200",
-    judul: "Kunjungan Industri Kelas 9",
-    ringkas: "Siswa mempelajari ekosistem ritel modern lewat tur terpandu.",
-    tanggal: "09 Jul 2025",
-    href: "#",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1200",
-    judul: "Tim Pramuka Juara Umum",
-    ringkas: "Prestasi membanggakan berkat kerja keras pembina dan siswa.",
-    tanggal: "02 Jul 2025",
-    href: "#",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1200",
-    judul: "P5: Pameran Karya Siswa",
-    ringkas: "Inovasi hijau dan produk daur ulang dipamerkan di aula sekolah.",
-    tanggal: "25 Jun 2025",
-    href: "#",
-  },
-];
+  const top3 = [...news]
+    .sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal))
+    .slice(0, 3);
 
   return (
     <main>
@@ -63,15 +45,13 @@ const dataBerita = [
         <div className="hero-overlay bg-black/45" />
         <div className="hero-content text-neutral-content text-center">
           <div>
-            <h1 className="font-bold uppercase leading-tight
-          text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+            <h1 className="font-bold uppercase leading-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
               SMP NEGERI 10 BALIKPAPAN
             </h1>
             <br />
             <p className="mt-4 text-base sm:text-lg md:text-xl lg:text-2xl">
-              Selamat datang di website resmi SMP Negeri 10 Balikpapan.
-              Dapatkan informasi terbaru seputar kegiatan dan pengumuman
-              sekolah.
+              Selamat datang di website resmi SMP Negeri 10 Balikpapan. Dapatkan
+              informasi terbaru seputar kegiatan dan pengumuman sekolah.
             </p>
           </div>
         </div>
@@ -89,31 +69,37 @@ const dataBerita = [
           </div>
 
           <div className="w-full flex justify-center">
-      <a href="#" className="btn btn-block btn-md lg:btn-lg">
-        Lihat Infromasi Lainnya
-      </a>
-    </div>
+            <Link
+              to="/akademik/informasi"
+              className="btn btn-block btn-md lg:btn-lg"
+            >
+              Lihat Informasi Lainnya
+            </Link>
+          </div>
         </div>
       </section>
 
-<section className="mt-[72px] px-4 sm:px-8 lg:px-24 mb-[72px]">
-  <div className="max-w-screen-2xl mx-auto flex flex-col items-center gap-12">
-    <h2 className="text-4xl font-extrabold uppercase">Berita</h2>
+      {/* Berita */}
+      <section className="mt-[72px] px-4 sm:px-8 lg:px-24 mb-[72px]">
+        <div className="max-w-screen-2xl mx-auto flex flex-col items-center gap-12">
+          <h2 className="text-4xl font-extrabold uppercase">Berita</h2>
 
-    <div className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-stretch">
-      {dataBerita.map((b, i) => (
-        <NewsCard key={i} {...b} />
-      ))}
-    </div>
+          <div className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-stretch">
+            {top3.map((b) => (
+              <NewsCard key={b.slug} {...b} />
+            ))}
+          </div>
 
-    <div className="w-full flex justify-center">
-      <a href="#" className="btn btn-block btn-md lg:btn-lg">
-        Lihat Berita Lainnya
-      </a>
-    </div>
-  </div>
-</section>
-      
+          <div className="w-full flex justify-center">
+            <Link
+              to="/profil/berita"
+              className="btn btn-block btn-md lg:btn-lg"
+            >
+              Lihat Berita Lainnya
+            </Link>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

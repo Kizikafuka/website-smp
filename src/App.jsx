@@ -1,8 +1,16 @@
+// src/App.jsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar.jsx";
-import Footer from "./components/footer.jsx";
+
+import Navbar from "./components/NavBar.jsx";
+import Footer from "./components/Footer.jsx";
+
 import LandingPage from "./pages/LandingPage.jsx";
 import AboutUs from "./pages/AboutUs.jsx";
+import TeachersPage from "./pages/TeacherPage.jsx";
+import GalleryPage from "./pages/GalleryPage.jsx";
+import NewsPage from "./pages/NewsPage.jsx";
+import NewsDetailPage from "./pages/NewsPageDetail.jsx";
+import EksPage from "./pages/EksPage.jsx";
 
 export default function App() {
   return (
@@ -13,8 +21,15 @@ export default function App() {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/profil/tentang" element={<AboutUs />} />
-            {/* optional: 404 */}
-            {/* <Route path="*" element={<div className="p-8">Halaman tidak ditemukan</div>} /> */}
+            <Route path="/profil/guru-staff" element={<TeachersPage />} />
+            <Route path="/profil/galeri" element={<GalleryPage />} />
+            <Route path="/profil/berita" element={<NewsPage />} />
+            <Route path="/profil/berita/:slug" element={<NewsDetailPage />} />
+            <Route path="//akademik/ekstrakurikuler" element={<EksPage />} />
+            <Route
+              path="*"
+              element={<div className="p-8">Halaman tidak ditemukan</div>}
+            />
           </Routes>
         </main>
         <Footer />
