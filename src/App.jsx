@@ -11,6 +11,7 @@ import GalleryPage from "./pages/GalleryPage.jsx";
 import NewsPage from "./pages/NewsPage.jsx";
 import NewsDetailPage from "./pages/NewsPageDetail.jsx";
 import EksPage from "./pages/EksPage.jsx";
+import InfoPage from "./pages/InfoPage.jsx";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
             <Route path="/profil/berita" element={<NewsPage />} />
             <Route path="/profil/berita/:slug" element={<NewsDetailPage />} />
             <Route path="//akademik/ekstrakurikuler" element={<EksPage />} />
+            <Route path="/akademik/informasi" element={<InfoPage />} />
             <Route
               path="*"
               element={<div className="p-8">Halaman tidak ditemukan</div>}

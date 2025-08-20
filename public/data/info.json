@@ -1,0 +1,23 @@
+[
+  {
+    "id": "mpls-2025",
+    "kategori": "Agenda",
+    "judul": "MPLS 14–18 Juli",
+    "deskripsi": "Info kegiatan MPLS 2025 untuk siswa baru.",
+    "tanggal": "2025-07-08"
+  },
+  {
+    "id": "daftar-ulang",
+    "kategori": "Pengumuman",
+    "judul": "Daftar Ulang",
+    "deskripsi": "Panduan lapor diri & daftar ulang.",
+    "tanggal": "2025-07-05"
+  },
+  {
+    "id": "asesmen-sumatif",
+    "kategori": "Agenda",
+    "judul": "Asesmen Sumatif",
+    "deskripsi": "Pelaksanaan asesmen akhir semester.",
+    "tanggal": "2025-06-05"
+  }
+]
