@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { news } from "../data/news.js";
 import NewsCard from "../components/NewsCard.jsx";
+import Pagination from "../components/Pagination.jsx";
 
 export default function NewsPage() {
   const sorted = useMemo(
@@ -56,75 +57,12 @@ export default function NewsPage() {
             <NewsCard key={item.slug} {...item} />
           ))}
         </div>
-
         {/* Pagination */}
-        <div className="mt-8 flex flex-col items-center gap-2">
-          {/* Mobile compact */}
-          <div className="join sm:hidden">
-            <button
-              className="join-item btn btn-sm"
-              onClick={() => goto(page - 1)}
-              disabled={page === 1}
-            >
-              «
-            </button>
-            <button className="join-item btn btn-sm" disabled>
-              {page} / {totalPages}
-            </button>
-            <button
-              className="join-item btn btn-sm"
-              onClick={() => goto(page + 1)}
-              disabled={page === totalPages}
-            >
-              »
-            </button>
-          </div>
-
-          {/* sm+ */}
-          <div className="hidden sm:flex overflow-x-auto">
-            <div className="join">
-              <button
-                className="join-item btn btn-sm md:btn-md"
-                onClick={() => goto(page - 1)}
-                disabled={page === 1}
-              >
-                «
-              </button>
-              {pages.map((p, i) =>
-                p === "dots" ? (
-                  <button
-                    key={`dots-${i}`}
-                    className="join-item btn btn-sm md:btn-md"
-                    disabled
-                  >
-                    …
-                  </button>
-                ) : (
-                  <button
-                    key={p}
-                    className={`join-item btn btn-sm md:btn-md ${
-                      page === p ? "btn-active" : ""
-                    }`}
-                    onClick={() => goto(p)}
-                  >
-                    {p}
-                  </button>
-                )
-              )}
-              <button
-                className="join-item btn btn-sm md:btn-md"
-                onClick={() => goto(page + 1)}
-                disabled={page === totalPages}
-              >
-                »
-              </button>
-            </div>
-          </div>
-
-          <p className="text-center text-sm opacity-70">
-            Halaman {page} dari {totalPages}
-          </p>
-        </div>
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          onChange={setPage} // atau (p) => setPage(p)
+        />
       </div>
     </main>
   );

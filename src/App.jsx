@@ -12,6 +12,8 @@ import NewsPage from "./pages/NewsPage.jsx";
 import NewsDetailPage from "./pages/NewsPageDetail.jsx";
 import EksPage from "./pages/EksPage.jsx";
 import InfoPage from "./pages/InfoPage.jsx";
+import MaterialsTasksPage from "./pages/MaterialsTasksPage.jsx";
+import VideosPage from "./pages/VideosPage.jsx";
 
 export default function App() {
   return (
@@ -28,6 +30,11 @@ export default function App() {
             <Route path="/profil/berita/:slug" element={<NewsDetailPage />} />
             <Route path="//akademik/ekstrakurikuler" element={<EksPage />} />
             <Route path="/akademik/informasi" element={<InfoPage />} />
+            <Route
+              path="/akademik/materi-tugas"
+              element={<MaterialsTasksPage />}
+            />
+            <Route path="/akademik/video" element={<VideosPage />} />
             <Route
               path="*"
               element={<div className="p-8">Halaman tidak ditemukan</div>}

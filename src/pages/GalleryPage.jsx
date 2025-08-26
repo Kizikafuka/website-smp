@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import GalleryCard from "../components/GalleryCard.jsx";
+import Pagination from "../components/Pagination.jsx";
 
 // Import gambar lokal (contoh)
 import img1 from "../assets/images/hero.jpg";
@@ -77,81 +78,12 @@ export default function GalleryPage() {
             <GalleryCard key={`${page}-${i}`} {...item} />
           ))}
         </div>
-
         {/* Pagination */}
-        <div className="mt-8 flex flex-col items-center gap-2">
-          {/* Mobile compact: Prev  X/Y  Next */}
-          <div className="join sm:hidden">
-            <button
-              className="join-item btn btn-sm"
-              onClick={() => goto(page - 1)}
-              disabled={page === 1}
-              aria-label="Sebelumnya"
-            >
-              «
-            </button>
-            <button className="join-item btn btn-sm" disabled>
-              {page} / {totalPages}
-            </button>
-            <button
-              className="join-item btn btn-sm"
-              onClick={() => goto(page + 1)}
-              disabled={page === totalPages}
-              aria-label="Berikutnya"
-            >
-              »
-            </button>
-          </div>
-
-          {/* sm+ : angka ramping + titik */}
-          <div className="hidden sm:flex">
-            <div className="join">
-              <button
-                className="join-item btn btn-sm md:btn-md"
-                onClick={() => goto(page - 1)}
-                disabled={page === 1}
-                aria-label="Sebelumnya"
-              >
-                «
-              </button>
-
-              {pageItems.map((p, idx) =>
-                p === "dots" ? (
-                  <button
-                    key={`dots-${idx}`}
-                    className="join-item btn btn-sm md:btn-md"
-                    disabled
-                  >
-                    …
-                  </button>
-                ) : (
-                  <button
-                    key={p}
-                    className={`join-item btn btn-sm md:btn-md ${
-                      page === p ? "btn-active" : ""
-                    }`}
-                    onClick={() => goto(p)}
-                  >
-                    {p}
-                  </button>
-                )
-              )}
-
-              <button
-                className="join-item btn btn-sm md:btn-md"
-                onClick={() => goto(page + 1)}
-                disabled={page === totalPages}
-                aria-label="Berikutnya"
-              >
-                »
-              </button>
-            </div>
-          </div>
-
-          <p className="text-center text-sm opacity-70">
-            Halaman {page} dari {totalPages}
-          </p>
-        </div>
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          onChange={setPage} // atau (p) => setPage(p)
+        />
       </div>
     </main>
   );
