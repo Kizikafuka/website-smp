@@ -1,3 +1,4 @@
+// src/pages/EksPage.jsx
 import { useEffect, useMemo, useState } from "react";
 import EksItemCard from "../components/EksCard.jsx";
 import Pagination from "../components/Pagination.jsx";

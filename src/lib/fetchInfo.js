@@ -1,3 +1,4 @@
+// src/lib/fetchInfo.js
 export async function fetchInfo() {
   const res = await fetch(`/data/info.json?ts=${Date.now()}`);
   if (!res.ok) throw new Error("Gagal memuat info.json");

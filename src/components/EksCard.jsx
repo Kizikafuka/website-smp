@@ -1,3 +1,4 @@
+// src/components/EksCard.jsx
 export default function EksItemCard({
   photo,
   name, // nama ekskul

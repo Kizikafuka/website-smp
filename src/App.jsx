@@ -28,7 +28,7 @@ export default function App() {
             <Route path="/profil/galeri" element={<GalleryPage />} />
             <Route path="/profil/berita" element={<NewsPage />} />
             <Route path="/profil/berita/:slug" element={<NewsDetailPage />} />
-            <Route path="//akademik/ekstrakurikuler" element={<EksPage />} />
+            <Route path="/akademik/ekstrakurikuler" element={<EksPage />} />
             <Route path="/akademik/informasi" element={<InfoPage />} />
             <Route
               path="/akademik/materi-tugas"

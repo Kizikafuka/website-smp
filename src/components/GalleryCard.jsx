@@ -1,3 +1,5 @@
+// src/components/GalleryCard.jsx
+
 import { useEffect, useRef, useState } from "react";
 
 export default function GalleryCard({

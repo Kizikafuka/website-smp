@@ -1,3 +1,4 @@
+// src/components/TeacherCard.jsx
 export default function TeacherCard({
   photo,
   name,

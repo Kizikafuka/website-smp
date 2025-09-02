@@ -1,3 +1,4 @@
+// src/pages/VideosPage.jsx
 import { useEffect, useMemo, useState } from "react";
 import VideosTable from "../components/table/VideoTable.jsx";
 import Pagination from "../components/Pagination.jsx";

@@ -1,3 +1,4 @@
+// src/pages/GalleryPage.jsx
 import { useEffect, useMemo, useState } from "react";
 import GalleryCard from "../components/GalleryCard.jsx";
 import Pagination from "../components/Pagination.jsx";

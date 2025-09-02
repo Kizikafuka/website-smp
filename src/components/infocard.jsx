@@ -1,3 +1,5 @@
+// src/components/InfoCard.jsx
+
 import { formatTanggalTile, splitTanggalRow } from "../lib/fetchInfo.js";
 
 export default function InfoCard({

@@ -1,3 +1,4 @@
+// src/components/table/VideoTable.jsx
 import VideosTableRow from "./VideoTableRow.jsx";
 
 export default function VideosTable({
