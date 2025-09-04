@@ -1,38 +1,49 @@
-// src/components/EksCard.jsx
+// src/components/EksItemCard.jsx
+
+/**
+ * A reusable row to display a label and value in the card.
+ */
+function DetailRow({ label, value }) {
+  return (
+    <div>
+      <div className="text-xs text-base-content/60">{label}</div>
+      <div className="font-semibold">{value}</div>
+    </div>
+  );
+}
+
+/**
+ * Card to display extracurricular activity information.
+ */
 export default function EksItemCard({
   photo,
-  name, // nama ekskul
-  coach, // pembina
-  schedule, // jadwal, contoh: "Jumat 15.30–17.00"
-  location, // lokasi latihan
+  name,
+  coach,
+  schedule,
+  location,
 }) {
+  const details = [
+    { label: "Nama Ekskul:", value: name },
+    { label: "Pembina:", value: coach },
+    { label: "Jadwal:", value: schedule },
+    { label: "Lokasi:", value: location },
+  ];
+
   return (
     <div className="card bg-base-100 border border-base-200 shadow-sm">
       {photo && (
         <figure className="overflow-hidden">
-          <img src={photo} alt={name} className="w-full h-48 object-cover" />
+          <img
+            src={photo}
+            alt={`Foto kegiatan ${name}`}
+            className="w-full h-48 object-cover"
+          />
         </figure>
       )}
-      <div className="card-body p-5 text-sm leading-6">
-        <div>
-          <div className="text-xs text-base-content/60">Nama Ekskul:</div>
-          <div className="font-semibold">{name}</div>
-        </div>
-
-        <div>
-          <div className="text-xs text-base-content/60">Pembina:</div>
-          <div className="font-semibold">{coach}</div>
-        </div>
-
-        <div>
-          <div className="text-xs text-base-content/60">Jadwal:</div>
-          <div className="font-semibold">{schedule}</div>
-        </div>
-
-        <div>
-          <div className="text-xs text-base-content/60">Lokasi:</div>
-          <div className="font-semibold">{location}</div>
-        </div>
+      <div className="card-body p-5 text-sm leading-6 space-y-3">
+        {details.map((item, idx) => (
+          <DetailRow key={idx} label={item.label} value={item.value} />
+        ))}
       </div>
     </div>
   );
