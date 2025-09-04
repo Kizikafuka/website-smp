@@ -71,7 +71,6 @@ export default function Navbar() {
   // menu data
   const profilItems = [
     { href: "/profil/tentang", label: "Tentang" },
-    // { href: "/visi-misi", label: "Visi & Misi" },
     { href: "/profil/guru-staff", label: "Guru & Staf" },
     { href: "/profil/galeri", label: "Galeri" },
     { href: "/profil/berita", label: "Berita" },
@@ -118,13 +117,16 @@ export default function Navbar() {
                   </svg>
                 </label>
               </div>
-              <a href="/" className="flex-1 flex items-center gap-2 pl-2">
-                <img
-                  src={logo}
-                  alt="Logo"
-                  className="w-12 h-12 object-contain"
-                />
-              </a>
+              <div className="flex-1 flex items-center pl-2">
+                {/* ✅ Logo: only the image is clickable now */}
+                <a href="/" className="inline-flex items-center">
+                  <img
+                    src={logo}
+                    alt="Logo"
+                    className="w-12 h-12 object-contain pointer-events-auto"
+                  />
+                </a>
+              </div>
             </div>
           </div>
 
@@ -183,8 +185,13 @@ export default function Navbar() {
       {/* =================== DESKTOP =================== */}
       <div className="hidden lg:flex navbar max-w-screen-2xl mx-auto px-8 lg:px-24">
         <div className="flex-1">
-          <a href="/" className="flex items-center gap-2">
-            <img src={logo} alt="Logo" className="w-16 h-16 object-contain" />
+          {/* ✅ Logo: only the image is clickable now */}
+          <a href="/" className="inline-flex items-center">
+            <img
+              src={logo}
+              alt="Logo"
+              className="w-16 h-16 object-contain pointer-events-auto"
+            />
           </a>
         </div>
         <div className="navbar-end gap-2">
