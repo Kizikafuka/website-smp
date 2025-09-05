@@ -1,28 +1,48 @@
 // src/pages/InfoPage.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import InfoCard from "../components/InfoCard.jsx";
 import Pagination from "../components/Pagination.jsx";
 import { fetchInfo } from "../lib/fetchInfo.js";
 
 export default function InfoPage() {
   const [items, setItems] = useState([]);
-  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState(null);
+
   const pageSize = 9;
+
+  // URL query ?page=...
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialPage = Math.max(
+    1,
+    parseInt(searchParams.get("page") || "1", 10)
+  );
+  const [page, setPage] = useState(initialPage);
 
   const { hash } = useLocation();
   const didScrollRef = useRef(false);
 
   // Load & sort (newest first)
   useEffect(() => {
-    fetchInfo()
-      .then((data) => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const data = await fetchInfo();
+        if (cancelled) return;
         const sorted = [...data].sort(
           (a, b) => new Date(b.tanggal) - new Date(a.tanggal)
         );
         setItems(sorted);
-      })
-      .catch(console.error);
+      } catch (e) {
+        setErr(e);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const totalPages = useMemo(
@@ -30,15 +50,27 @@ export default function InfoPage() {
     [items.length]
   );
 
-  // Clamp page to totalPages whenever data changes
+  // Clamp page if items length changes
   useEffect(() => {
-    setPage((p) => Math.min(p, totalPages));
+    setPage((p) => Math.min(Math.max(1, p), totalPages));
   }, [totalPages]);
 
-  // If there is a #hash, jump to the page containing that item first
+  // Keep ?page in URL in sync (without wiping other params)
+  useEffect(() => {
+    const current = searchParams.get("page");
+    const next = String(page);
+    if (current !== next) {
+      const sp = new URLSearchParams(searchParams);
+      sp.set("page", next);
+      setSearchParams(sp, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
+
+  // If there is a #hash, jump to the page containing that item
   useEffect(() => {
     if (!hash || items.length === 0) return;
-    const targetId = hash.replace("#", "");
+    const targetId = hash.slice(1);
     const idx = items.findIndex((it) => it.id === targetId);
     if (idx === -1) return;
     const targetPage = Math.floor(idx / pageSize) + 1;
@@ -49,20 +81,29 @@ export default function InfoPage() {
   const start = (page - 1) * pageSize;
   const currentItems = items.slice(start, start + pageSize);
 
-  // After page is set (esp. from hash), smooth‑scroll to the element (with offset)
+  // After page is set (esp. from hash), smooth-scroll to the element (with offset)
   useEffect(() => {
-    if (!hash) return;
-    if (didScrollRef.current) return; // avoid re-scrolling multiple times
+    if (!hash || didScrollRef.current) return;
 
-    const el = document.querySelector(hash);
-    if (!el) return;
+    let raf = 0;
+    let tries = 0;
+    const maxTries = 12; // ~200ms worth of checks
 
-    const y = el.getBoundingClientRect().top + window.scrollY - 80; // adjust for sticky navbar height
-    window.scrollTo({ top: y, behavior: "smooth" });
-    el.classList.add("ring", "ring-primary/40");
-    setTimeout(() => el.classList.remove("ring", "ring-primary/40"), 1200);
+    const tick = () => {
+      const el = document.querySelector(hash);
+      if (el) {
+        const y = el.getBoundingClientRect().top + window.scrollY - 80; // adjust for sticky navbar
+        window.scrollTo({ top: y, behavior: "smooth" });
+        el.classList.add("ring", "ring-primary/40");
+        setTimeout(() => el.classList.remove("ring", "ring-primary/40"), 1200);
+        didScrollRef.current = true;
+        return;
+      }
+      if (tries++ < maxTries) raf = requestAnimationFrame(tick);
+    };
 
-    didScrollRef.current = true;
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, [hash, page]);
 
   // Scroll to top on normal page changes (when not using hash)
@@ -71,57 +112,51 @@ export default function InfoPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [page, hash]);
 
-  // Compact pager numbers: 1 … (p-1) p (p+1) … last
-  function getCompactPages(total, current) {
-    if (total <= 5) return Array.from({ length: total }, (_, i) => i + 1);
-    const set = new Set([
-      1,
-      2,
-      total - 1,
-      total,
-      current - 1,
-      current,
-      current + 1,
-    ]);
-    const arr = Array.from(set)
-      .filter((p) => p >= 1 && p <= total)
-      .sort((a, b) => a - b);
-
-    const out = [];
-    for (let i = 0; i < arr.length; i++) {
-      out.push(arr[i]);
-      const next = arr[i + 1];
-      if (next && next - arr[i] > 1) out.push("dots");
-    }
-    return out;
-  }
-  const pageItems = getCompactPages(totalPages, page);
-  const goto = (p) => setPage(Math.min(Math.max(1, p), totalPages));
-
   return (
     <main className="px-4 sm:px-8 lg:px-24 py-8">
       <div className="max-w-screen-2xl mx-auto">
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-center mb-8">
+        <h1
+          id="page-title"
+          className="text-3xl sm:text-4xl font-extrabold text-center mb-8"
+        >
           Informasi
         </h1>
 
-        <div className="flex flex-col gap-4">
-          {currentItems.map((it) => (
-            <InfoCard
-              key={it.id}
-              id={it.id}
-              variant="row"
-              showButton={false}
-              {...it}
+        {loading ? (
+          <div className="flex flex-col gap-4">
+            {/* lightweight skeletons */}
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-28 rounded-lg border border-base-200 bg-base-200 animate-pulse"
+              />
+            ))}
+          </div>
+        ) : err ? (
+          <p className="text-error">Gagal memuat data. Coba lagi nanti.</p>
+        ) : currentItems.length === 0 ? (
+          <p className="text-base-content/60">Belum ada informasi.</p>
+        ) : (
+          <>
+            <div className="flex flex-col gap-4">
+              {currentItems.map((it) => (
+                <InfoCard
+                  key={it.id}
+                  id={it.id}
+                  variant="row"
+                  showButton={false}
+                  {...it}
+                />
+              ))}
+            </div>
+
+            <Pagination
+              page={page}
+              totalPages={totalPages}
+              onChange={setPage}
             />
-          ))}
-        </div>
-        {/* Pagination */}
-        <Pagination
-          page={page}
-          totalPages={totalPages}
-          onChange={setPage} // atau (p) => setPage(p)
-        />
+          </>
+        )}
       </div>
     </main>
   );

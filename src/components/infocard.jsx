@@ -1,10 +1,27 @@
 // src/components/InfoCard.jsx
-
+import { Link } from "react-router-dom";
 import { formatTanggalTile, splitTanggalRow } from "../lib/fetchInfo.js";
+
+function SmartLink({ href = "#", className = "", children, ...rest }) {
+  const isExternal =
+    /^(?:https?:)?\/\//i.test(href) || /^(mailto:|tel:)/i.test(href);
+  if (isExternal) {
+    return (
+      <a href={href} className={className} rel="noopener noreferrer" {...rest}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link to={href} className={className} {...rest}>
+      {children}
+    </Link>
+  );
+}
 
 export default function InfoCard({
   id,
-  tanggal, // ← ISO string: "2025-07-08"
+  tanggal, // ISO string: "2025-07-08"
   kategori,
   judul,
   deskripsi,
@@ -23,6 +40,7 @@ export default function InfoCard({
           <div className="text-4xl font-extrabold leading-none">{d}</div>
           <div className="text-sm mt-1 uppercase tracking-wide">{tail}</div>
         </div>
+
         <div className="flex-1 px-5 py-4">
           <div className="flex flex-wrap items-center gap-2">
             <h3 className="font-extrabold text-xl">{judul}</h3>
@@ -32,14 +50,16 @@ export default function InfoCard({
               </span>
             )}
           </div>
+
           {deskripsi && (
             <p className="mt-2 text-sm text-slate-600">{deskripsi}</p>
           )}
+
           {showButton && (
             <div className="mt-4">
-              <a href={href} className="btn btn-sm md:btn-md">
+              <SmartLink href={href} className="btn btn-sm md:btn-md">
                 Selengkapnya
-              </a>
+              </SmartLink>
             </div>
           )}
         </div>
@@ -58,21 +78,24 @@ export default function InfoCard({
           {formatTanggalTile(tanggal)}
         </span>
       </figure>
+
       <div className="card-body flex flex-col gap-3 sm:gap-4">
         <h2 className="card-title text-xl sm:text-2xl flex items-start gap-2">
           <span className="flex-1">{judul}</span>
           {kategori && (
-            <div className="badge bg-yellow-400 text-black">{kategori}</div>
+            <span className="badge bg-yellow-400 text-black">{kategori}</span>
           )}
         </h2>
+
         {deskripsi && (
           <p className="line-clamp-2 text-sm sm:text-base">{deskripsi}</p>
         )}
+
         {showButton && (
           <div className="card-actions mt-auto">
-            <a href={href} className="btn btn-block btn-sm md:btn-md">
+            <SmartLink href={href} className="btn btn-block btn-sm md:btn-md">
               Selengkapnya
-            </a>
+            </SmartLink>
           </div>
         )}
       </div>

@@ -1,5 +1,6 @@
 // src/components/Navbar.jsx
 import { useEffect, useRef, useState } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/icons/logo.png";
 
 /** Close when clicking outside / pressing Esc (desktop dropdown only) */
@@ -22,7 +23,13 @@ function useOutsideCloser(isOpen, onClose) {
   return ref;
 }
 
-/** Desktop dropdown (unchanged) */
+/** Utility: close the mobile drawer checkbox if present */
+function closeDrawer() {
+  const el = document.getElementById("nav-drawer");
+  if (el) el.checked = false;
+}
+
+/** Desktop dropdown */
 function NavDropdown({ id, label, items, align = "start", openId, setOpenId }) {
   const isOpen = openId === id;
   const close = () => setOpenId(null);
@@ -32,12 +39,14 @@ function NavDropdown({ id, label, items, align = "start", openId, setOpenId }) {
   return (
     <div
       ref={ref}
+      tabIndex={0} /* DaisyUI focuses the container */
       className={`dropdown ${isOpen ? "dropdown-open" : ""} ${
         align === "end" ? "dropdown-end" : ""
       }`}
     >
       <button
         type="button"
+        tabIndex={0} /* DaisyUI expects a focusable trigger */
         onClick={toggle}
         aria-haspopup="menu"
         aria-expanded={isOpen}
@@ -45,13 +54,27 @@ function NavDropdown({ id, label, items, align = "start", openId, setOpenId }) {
       >
         {label}
       </button>
+
       <ul
+        tabIndex={0} /* DaisyUI expects the content to be focusable */
         className="dropdown-content menu bg-base-100 rounded-box w-56 p-2 shadow z-50"
         role="menu"
       >
         {items.map((it) => (
-          <li key={it.href}>
-            <a href={it.href}>{it.label}</a>
+          <li key={it.href} role="none">
+            <NavLink
+              to={it.href}
+              role="menuitem"
+              className={({ isActive }) =>
+                `justify-between ${isActive ? "active font-semibold" : ""}`
+              }
+              /* Close BEFORE navigation so state doesn't race the route change */
+              onPointerDown={close}
+              /* Extra safety on click (touch-only devices) */
+              onClick={close}
+            >
+              {it.label}
+            </NavLink>
           </li>
         ))}
       </ul>
@@ -61,14 +84,14 @@ function NavDropdown({ id, label, items, align = "start", openId, setOpenId }) {
 
 export default function Navbar() {
   const [openId, setOpenId] = useState(null);
+  const location = useLocation();
 
+  /** Close any open desktop dropdown on ANY navigation (key changes every push) */
   useEffect(() => {
-    const close = () => setOpenId(null);
-    window.addEventListener("hashchange", close);
-    return () => window.removeEventListener("hashchange", close);
-  }, []);
+    setOpenId(null);
+  }, [location.key]);
 
-  // menu data
+  // ================= MENU DATA =================
   const profilItems = [
     { href: "/profil/tentang", label: "Tentang" },
     { href: "/profil/guru-staff", label: "Guru & Staf" },
@@ -117,15 +140,20 @@ export default function Navbar() {
                   </svg>
                 </label>
               </div>
+
               <div className="flex-1 flex items-center pl-2">
-                {/* ✅ Logo: only the image is clickable now */}
-                <a href="/" className="inline-flex items-center">
+                {/* Logo */}
+                <Link
+                  to="/"
+                  className="inline-flex items-center"
+                  onClick={closeDrawer}
+                >
                   <img
                     src={logo}
                     alt="Logo"
                     className="w-12 h-12 object-contain pointer-events-auto"
                   />
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -145,12 +173,21 @@ export default function Navbar() {
                   <ul>
                     {profilItems.map((it) => (
                       <li key={it.href}>
-                        <a href={it.href}>{it.label}</a>
+                        <NavLink
+                          to={it.href}
+                          className={({ isActive }) =>
+                            isActive ? "active font-semibold" : ""
+                          }
+                          onClick={closeDrawer}
+                        >
+                          {it.label}
+                        </NavLink>
                       </li>
                     ))}
                   </ul>
                 </details>
               </li>
+
               {/* Akademik */}
               <li>
                 <details>
@@ -158,12 +195,21 @@ export default function Navbar() {
                   <ul>
                     {akademikItems.map((it) => (
                       <li key={it.href}>
-                        <a href={it.href}>{it.label}</a>
+                        <NavLink
+                          to={it.href}
+                          className={({ isActive }) =>
+                            isActive ? "active font-semibold" : ""
+                          }
+                          onClick={closeDrawer}
+                        >
+                          {it.label}
+                        </NavLink>
                       </li>
                     ))}
                   </ul>
                 </details>
               </li>
+
               {/* Akun */}
               <li>
                 <details>
@@ -171,7 +217,15 @@ export default function Navbar() {
                   <ul>
                     {akunItems.map((it) => (
                       <li key={it.href}>
-                        <a href={it.href}>{it.label}</a>
+                        <NavLink
+                          to={it.href}
+                          className={({ isActive }) =>
+                            isActive ? "active font-semibold" : ""
+                          }
+                          onClick={closeDrawer}
+                        >
+                          {it.label}
+                        </NavLink>
                       </li>
                     ))}
                   </ul>
@@ -185,15 +239,15 @@ export default function Navbar() {
       {/* =================== DESKTOP =================== */}
       <div className="hidden lg:flex navbar max-w-screen-2xl mx-auto px-8 lg:px-24">
         <div className="flex-1">
-          {/* ✅ Logo: only the image is clickable now */}
-          <a href="/" className="inline-flex items-center">
+          <Link to="/" className="inline-flex items-center">
             <img
               src={logo}
               alt="Logo"
               className="w-16 h-16 object-contain pointer-events-auto"
             />
-          </a>
+          </Link>
         </div>
+
         <div className="navbar-end gap-2">
           <NavDropdown
             id="profil"

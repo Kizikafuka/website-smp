@@ -15,18 +15,15 @@ export default function GalleryCard({
   const titleId = useId();
   const descId = useId();
 
-  // Close with ESC and click on backdrop
+  // Lock background + ESC + focus
   useEffect(() => {
     if (!open) return;
-
     const onKey = (e) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
 
-    // Prevent body scroll when modal open
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
-    // Move focus to close button when modal opens
     const t = setTimeout(() => closeBtnRef.current?.focus(), 0);
 
     return () => {
@@ -36,14 +33,14 @@ export default function GalleryCard({
     };
   }, [open]);
 
-  // Return focus to trigger after closing
+  // Return focus to trigger
   useEffect(() => {
     if (!open) triggerRef.current?.focus();
   }, [open]);
 
   return (
     <>
-      {/* Kartu — use a real button for keyboard accessibility */}
+      {/* Card */}
       <button
         type="button"
         ref={triggerRef}
@@ -53,7 +50,6 @@ export default function GalleryCard({
         aria-expanded={open}
         aria-controls={titleId}
       >
-        {/* Gambar */}
         <figure className="relative w-full h-56">
           <img
             src={src}
@@ -62,21 +58,19 @@ export default function GalleryCard({
             loading="lazy"
             decoding="async"
           />
-          {/* Overlay gelap saat hover */}
           <span
             aria-hidden="true"
             className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300"
           />
         </figure>
 
-        {/* Teks muncul saat hover */}
         <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white pointer-events-none">
           {title && <h2 className="text-lg font-bold">{title}</h2>}
           {desc && <p className="text-sm mt-1 line-clamp-2">{desc}</p>}
         </div>
       </button>
 
-      {/* Modal / lightbox */}
+      {/* Modal / Lightbox */}
       <div
         className={`modal ${open ? "modal-open" : ""}`}
         ref={modalRef}
@@ -85,12 +79,21 @@ export default function GalleryCard({
         aria-labelledby={titleId}
         aria-describedby={desc ? descId : undefined}
         onMouseDown={(e) => {
-          // close when clicking the backdrop (outside modal-box)
           if (e.target === modalRef.current) setOpen(false);
         }}
       >
-        <div className="modal-box w-11/12 max-w-4xl p-3 md:p-4">
-          <div className="flex items-center justify-between mb-2 md:mb-3">
+        {/* Option B: make the modal-box the scroll container (usually smoothest) */}
+        <div
+          className="modal-box w-11/12 max-w-4xl p-3 md:p-4 max-h-[85vh] flex flex-col overflow-y-auto"
+          style={{
+            WebkitOverflowScrolling: "touch",
+            overscrollBehavior: "contain",
+            transform: "translateZ(0)", // promote to its own layer
+            backfaceVisibility: "hidden",
+          }}
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between mb-2 md:mb-3 shrink-0">
             <h3 id={titleId} className="font-bold text-lg truncate">
               {title || "Foto"}
             </h3>
@@ -103,12 +106,12 @@ export default function GalleryCard({
             </button>
           </div>
 
-          {/* Konten bisa di-scroll jika tinggi */}
-          <div className="max-h-[80vh] overflow-auto">
+          {/* Content */}
+          <div className="flex-1">
             <img
               src={src}
               alt={alt || title}
-              className="w-full h-auto rounded-lg"
+              className="block w-full h-auto rounded-lg"
               loading="lazy"
               decoding="async"
             />
@@ -119,7 +122,8 @@ export default function GalleryCard({
             )}
           </div>
 
-          <div className="modal-action">
+          {/* Footer */}
+          <div className="modal-action shrink-0">
             <button className="btn" onClick={() => setOpen(false)}>
               Tutup
             </button>

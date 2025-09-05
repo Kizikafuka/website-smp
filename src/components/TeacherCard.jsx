@@ -1,44 +1,64 @@
 // src/components/TeacherCard.jsx
+import defaultPhoto from "../assets/images/default-teacher.png"; // optional placeholder
+
 export default function TeacherCard({
   photo,
-  name,
-  gender, //
-  birthplace, // "Balikpapan"
-  birthdate, // "17 Agustus 1945"
-  role, // "Guru Mata Pelajaran"
+  name = "-",
+  gender = "-",
+  birthplace = "-",
+  birthdate = "-",
+  role = "-",
+  className = "",
 }) {
   return (
-    <div className="card bg-base-100 border border-base-200 shadow-sm">
-      {photo && (
-        <figure className="overflow-hidden">
-          <img src={photo} alt={name} className="w-full h-48 object-cover" />
-        </figure>
-      )}
+    <article
+      className={`card bg-base-100 border border-base-200 shadow-sm hover:shadow-md transition-shadow duration-300 ${className}`}
+    >
+      {/* Foto Guru */}
+      <figure className="relative w-full aspect-[3/4] bg-base-200 overflow-hidden">
+        <img
+          src={photo || defaultPhoto}
+          alt={name}
+          className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-300 hover:scale-105"
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+
+      {/* Detail Guru */}
       <div className="card-body p-5 text-sm leading-6">
-        <div>
-          <div className="text-xs text-base-content/60">Nama:</div>
-          <div className="font-semibold">{name}</div>
-        </div>
-
-        <div>
-          <div className="text-xs text-base-content/60">Jenis Kelamin:</div>
-          <div className="font-semibold">{gender}</div>
-        </div>
-
-        <div>
-          <div className="text-xs text-base-content/60">
-            Tempat, Tanggal Lahir:
+        <dl className="space-y-3">
+          {/* Nama */}
+          <div>
+            <dt className="text-xs text-base-content/60">Nama:</dt>
+            <dd className="font-semibold">{name}</dd>
           </div>
-          <div className="font-semibold">
-            {birthplace}, {birthdate}
-          </div>
-        </div>
 
-        <div>
-          <div className="text-xs text-base-content/60">Jenis GTK:</div>
-          <div className="font-semibold">{role}</div>
-        </div>
+          {/* Jenis Kelamin */}
+          <div>
+            <dt className="text-xs text-base-content/60">Jenis Kelamin:</dt>
+            <dd className="font-semibold">{gender}</dd>
+          </div>
+
+          {/* Tempat, Tanggal Lahir */}
+          <div>
+            <dt className="text-xs text-base-content/60">
+              Tempat, Tanggal Lahir:
+            </dt>
+            <dd className="font-semibold">
+              {birthplace}
+              {birthplace && birthdate ? ", " : ""}
+              {birthdate}
+            </dd>
+          </div>
+
+          {/* Jenis GTK */}
+          <div>
+            <dt className="text-xs text-base-content/60">Jenis GTK:</dt>
+            <dd className="font-semibold">{role}</dd>
+          </div>
+        </dl>
       </div>
-    </div>
+    </article>
   );
 }

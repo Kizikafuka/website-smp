@@ -1,7 +1,7 @@
 // src/App.jsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Navbar from "./components/NavBar.jsx";
+import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 
 import LandingPage from "./pages/LandingPage.jsx";
@@ -14,11 +14,13 @@ import EksPage from "./pages/EksPage.jsx";
 import InfoPage from "./pages/InfoPage.jsx";
 import MaterialsTasksPage from "./pages/MaterialsTasksPage.jsx";
 import VideosPage from "./pages/VideosPage.jsx";
+import ScrollToTop from "./components/ScrollToTop";
 
 export default function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen flex flex-col">
+        <ScrollToTop />
         <Navbar />
         <main className="flex-1">
           <Routes>
