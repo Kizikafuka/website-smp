@@ -1,6 +1,6 @@
 import { useMemo, useState, useCallback } from "react";
 import GalleryCard from "../components/GalleryCard.jsx";
-import Lightbox from "../components/Lightbox.jsx";
+import Lightbox from "../components/LightBox.jsx";
 import Pagination from "../components/Pagination.jsx";
 import img1 from "../assets/images/hero.jpg";
 

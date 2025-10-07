@@ -1,5 +1,5 @@
 // src/components/LoginForm.jsx
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
 export default function LoginForm() {
@@ -7,6 +7,7 @@ export default function LoginForm() {
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const pwRef = useRef(null);
 
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -57,6 +58,7 @@ export default function LoginForm() {
           onChange={onChange}
           aria-invalid={!!errors.email}
           aria-describedby={errors.email ? "email-error" : undefined}
+          autoComplete="username"
         />
         {errors.email && (
           <p id="email-error" className="text-error text-sm mt-1">
@@ -72,8 +74,9 @@ export default function LoginForm() {
           <input
             id="password"
             name="password"
+            ref={pwRef}
             type={showPw ? "text" : "password"}
-            className={`input w-full pr-10 ${
+            className={`input w-full pr-12 ${
               errors.password ? "input-error" : ""
             }`}
             placeholder="••••••••"
@@ -81,14 +84,24 @@ export default function LoginForm() {
             onChange={onChange}
             aria-invalid={!!errors.password}
             aria-describedby={errors.password ? "password-error" : undefined}
+            autoComplete="current-password"
           />
           <button
             type="button"
-            onClick={() => setShowPw((v) => !v)}
-            className="btn btn-ghost btn-xs absolute right-2 top-1/2 -translate-y-1/2"
+            className="btn btn-ghost btn-xs absolute right-2 top-1/2 -translate-y-1/2 z-10 select-none"
             aria-label={showPw ? "Sembunyikan password" : "Tampilkan password"}
+            aria-pressed={showPw}
+            // jaga fokus tetap di input, tapi klik tetap berfungsi
+            onMouseDown={(e) => e.preventDefault()}
+            onTouchStart={(e) => e.preventDefault()}
+            onClick={() => {
+              setShowPw((v) => !v);
+              pwRef.current?.focus({ preventScroll: true });
+            }}
           >
-            {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
+            <span draggable={false} className="pointer-events-none">
+              {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
+            </span>
           </button>
         </div>
         {errors.password && (
@@ -116,7 +129,7 @@ export default function LoginForm() {
         >
           {loading ? (
             <>
-              <span className="loading loading-spinner"></span>
+              <span className="loading loading-spinner" />
               Memproses...
             </>
           ) : (
