@@ -1,7 +1,7 @@
 // src/pages/LoginPage.jsx
 import { Link } from "react-router-dom";
 import LoginForm from "../components/LoginForm";
-import logo from "../assets/icons/logo.png";
+import logo from "../assets/icons/Logo.png";
 
 export default function LoginPage() {
   return (
