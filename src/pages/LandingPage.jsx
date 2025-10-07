@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import heroImg from "../assets/images/hero.jpg";
 import InfoCard from "../components/infocard.jsx";
-import NewsCard from "../components/newscard.jsx";
+import NewsCard from "../components/NewsCard.jsx";
 import { news } from "../data/news.js";
 import { fetchInfo } from "../lib/fetchInfo.js";
 

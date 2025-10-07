@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { news } from "../data/news.js";
-import NewsCard from "../components/newscard.jsx";
+import NewsCard from "../components/NewsCard.jsx";
 import Pagination from "../components/Pagination.jsx";
 
 const MONTHS = [

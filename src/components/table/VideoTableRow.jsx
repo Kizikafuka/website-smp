@@ -1,5 +1,5 @@
-// src/components/table/VideoTableRow.jsx
-export default function VideosTableRow({ index, item, onOpen }) {
+// src/components/Table/VideoTableRow.jsx
+export default function VideoTableRow({ index, item, onOpen }) {
   return (
     <tr>
       <td>{index}</td>
