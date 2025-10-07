@@ -1,7 +1,7 @@
 // src/pages/MaterialsTasksPage.jsx
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import MaterialsTable from "../components/Table/MaterialsTable.jsx";
+import MaterialsTable from "../components/Table/materialstable.jsx";
 import Pagination from "../components/Pagination.jsx";
 
 function normalizeText(s) {
