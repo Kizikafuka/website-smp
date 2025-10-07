@@ -2,7 +2,6 @@
 export default function Pagination({ page, totalPages, onChange }) {
   if (totalPages <= 1) return null;
 
-  // Deret tombol ramping: 1 … (p-1) p (p+1) … last
   const getCompactPages = (total, current) => {
     if (total <= 5) return Array.from({ length: total }, (_, i) => i + 1);
 
@@ -32,8 +31,12 @@ export default function Pagination({ page, totalPages, onChange }) {
   const goto = (p) => onChange(Math.min(Math.max(1, p), totalPages));
 
   return (
-    <div className="mt-8 flex flex-col items-center gap-2">
-      {/* Mobile compact: Prev  X/Y  Next */}
+    <nav
+      role="navigation"
+      aria-label="Pagination"
+      className="mt-6 flex flex-col items-center gap-2"
+    >
+      {/* Mobile compact */}
       <div className="join sm:hidden">
         <button
           className="join-item btn btn-sm"
@@ -56,7 +59,7 @@ export default function Pagination({ page, totalPages, onChange }) {
         </button>
       </div>
 
-      {/* sm+ : angka ramping + titik */}
+      {/* Desktop */}
       <div className="hidden sm:flex">
         <div className="join">
           <button
@@ -72,8 +75,9 @@ export default function Pagination({ page, totalPages, onChange }) {
             p === "dots" ? (
               <button
                 key={`dots-${idx}`}
-                className="join-item btn btn-sm md:btn-md"
+                className="join-item btn btn-sm md:btn-md btn-disabled opacity-50"
                 disabled
+                aria-hidden="true"
               >
                 …
               </button>
@@ -81,7 +85,7 @@ export default function Pagination({ page, totalPages, onChange }) {
               <button
                 key={p}
                 className={`join-item btn btn-sm md:btn-md ${
-                  page === p ? "btn-active" : ""
+                  page === p ? "btn-primary" : ""
                 }`}
                 onClick={() => goto(p)}
                 aria-current={page === p ? "page" : undefined}
@@ -103,9 +107,9 @@ export default function Pagination({ page, totalPages, onChange }) {
         </div>
       </div>
 
-      <p className="text-center text-sm opacity-70">
+      <p className="text-center text-sm text-base-content/70">
         Halaman {page} dari {totalPages}
       </p>
-    </div>
+    </nav>
   );
 }

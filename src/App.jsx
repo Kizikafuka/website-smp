@@ -15,6 +15,7 @@ import InfoPage from "./pages/InfoPage.jsx";
 import MaterialsTasksPage from "./pages/MaterialsTasksPage.jsx";
 import VideosPage from "./pages/VideosPage.jsx";
 import ScrollToTop from "./components/ScrollToTop";
+import LoginPage from "./pages/LoginPage.jsx";
 
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
               element={<MaterialsTasksPage />}
             />
             <Route path="/akademik/video" element={<VideosPage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route
               path="*"
               element={<div className="p-8">Halaman tidak ditemukan</div>}

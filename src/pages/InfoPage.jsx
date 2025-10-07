@@ -1,4 +1,3 @@
-// src/pages/InfoPage.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import InfoCard from "../components/InfoCard.jsx";
@@ -30,9 +29,14 @@ export default function InfoPage() {
       try {
         const data = await fetchInfo();
         if (cancelled) return;
-        const sorted = [...data].sort(
-          (a, b) => new Date(b.tanggal) - new Date(a.tanggal)
-        );
+
+        const sorted = [...data].sort((a, b) => {
+          const da = new Date(a.tanggal).getTime();
+          const db = new Date(b.tanggal).getTime();
+          // guard NaN => treat invalid dates as 0 so they sink to bottom
+          return (isNaN(db) ? 0 : db) - (isNaN(da) ? 0 : da);
+        });
+
         setItems(sorted);
       } catch (e) {
         setErr(e);
@@ -113,40 +117,38 @@ export default function InfoPage() {
   }, [page, hash]);
 
   return (
-    <main className="px-4 sm:px-8 lg:px-24 py-8">
+    <main className="px-4 sm:px-8 lg:px-24 py-8" aria-labelledby="page-title">
       <div className="max-w-screen-2xl mx-auto">
         <h1
           id="page-title"
-          className="text-3xl sm:text-4xl font-extrabold text-center mb-8"
+          className="text-3xl sm:text-4xl font-extrabold text-primary text-center mb-8"
         >
           Informasi
         </h1>
 
         {loading ? (
-          <div className="flex flex-col gap-4">
-            {/* lightweight skeletons */}
+          <div role="status" aria-busy="true" className="flex flex-col gap-4">
+            {/* DaisyUI skeletons */}
             {Array.from({ length: 3 }).map((_, i) => (
               <div
                 key={i}
-                className="h-28 rounded-lg border border-base-200 bg-base-200 animate-pulse"
+                className="skeleton h-28 rounded-box border border-base-200"
               />
             ))}
           </div>
         ) : err ? (
-          <p className="text-error">Gagal memuat data. Coba lagi nanti.</p>
+          <div className="alert alert-error" role="alert">
+            <span>Gagal memuat data. Coba lagi nanti.</span>
+          </div>
         ) : currentItems.length === 0 ? (
-          <p className="text-base-content/60">Belum ada informasi.</p>
+          <p className="text-base-content/70">Belum ada informasi.</p>
         ) : (
           <>
             <div className="flex flex-col gap-4">
               {currentItems.map((it) => (
-                <InfoCard
-                  key={it.id}
-                  id={it.id}
-                  variant="row"
-                  showButton={false}
-                  {...it}
-                />
+                <div key={it.id} id={it.id} className="scroll-mt-24">
+                  <InfoCard variant="row" showButton={false} {...it} />
+                </div>
               ))}
             </div>
 

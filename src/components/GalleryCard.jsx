@@ -1,4 +1,3 @@
-// src/components/GalleryCard.jsx
 import { useEffect, useId, useRef, useState } from "react";
 
 export default function GalleryCard({
@@ -7,6 +6,7 @@ export default function GalleryCard({
   desc,
   alt = "",
   className = "",
+  eager = false,
 }) {
   const [open, setOpen] = useState(false);
   const modalRef = useRef(null);
@@ -15,59 +15,52 @@ export default function GalleryCard({
   const titleId = useId();
   const descId = useId();
 
-  // Lock background + ESC + focus
+  // Lock scroll + ESC
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
-
-    const prevOverflow = document.body.style.overflow;
+    const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-
     const t = setTimeout(() => closeBtnRef.current?.focus(), 0);
-
     return () => {
       window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prevOverflow;
+      document.body.style.overflow = prev;
       clearTimeout(t);
     };
   }, [open]);
 
-  // Return focus to trigger
+  // Return focus
   useEffect(() => {
     if (!open) triggerRef.current?.focus();
   }, [open]);
 
   return (
     <>
-      {/* Card */}
       <button
         type="button"
         ref={triggerRef}
         onClick={() => setOpen(true)}
-        className={`relative card bg-base-100 shadow-sm w-full max-w-sm cursor-pointer group overflow-hidden text-left ${className}`}
+        className={`card bg-base-100 border border-base-200 shadow-sm w-full text-left ${className}`}
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls={titleId}
       >
-        <figure className="relative w-full h-56">
+        <figure className="w-full overflow-hidden rounded-box">
           <img
             src={src}
             alt={alt || title}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-            loading="lazy"
+            className="w-full h-auto object-cover"
+            loading={eager ? "eager" : "lazy"}
             decoding="async"
           />
-          <span
-            aria-hidden="true"
-            className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300"
-          />
         </figure>
-
-        <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white pointer-events-none">
-          {title && <h2 className="text-lg font-bold">{title}</h2>}
-          {desc && <p className="text-sm mt-1 line-clamp-2">{desc}</p>}
-        </div>
+        {(title || desc) && (
+          <div className="card-body p-4">
+            {title && <h2 className="font-semibold">{title}</h2>}
+            {desc && <p className="text-sm text-base-content/70">{desc}</p>}
+          </div>
+        )}
       </button>
 
       {/* Modal / Lightbox */}
@@ -82,18 +75,8 @@ export default function GalleryCard({
           if (e.target === modalRef.current) setOpen(false);
         }}
       >
-        {/* Option B: make the modal-box the scroll container (usually smoothest) */}
-        <div
-          className="modal-box w-11/12 max-w-4xl p-3 md:p-4 max-h-[85vh] flex flex-col overflow-y-auto"
-          style={{
-            WebkitOverflowScrolling: "touch",
-            overscrollBehavior: "contain",
-            transform: "translateZ(0)", // promote to its own layer
-            backfaceVisibility: "hidden",
-          }}
-        >
-          {/* Header */}
-          <div className="flex items-center justify-between mb-2 md:mb-3 shrink-0">
+        <div className="modal-box w-11/12 max-w-4xl p-3 md:p-4 max-h-[85vh] flex flex-col overflow-y-auto">
+          <div className="flex items-center justify-between mb-2 md:mb-3">
             <h3 id={titleId} className="font-bold text-lg truncate">
               {title || "Foto"}
             </h3>
@@ -106,7 +89,6 @@ export default function GalleryCard({
             </button>
           </div>
 
-          {/* Content */}
           <div className="flex-1">
             <img
               src={src}
@@ -122,8 +104,7 @@ export default function GalleryCard({
             )}
           </div>
 
-          {/* Footer */}
-          <div className="modal-action shrink-0">
+          <div className="modal-action">
             <button className="btn" onClick={() => setOpen(false)}>
               Tutup
             </button>
