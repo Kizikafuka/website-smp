@@ -99,7 +99,6 @@ export default function Navbar() {
     { href: "/akademik/materi-tugas", label: "Materi & Tugas" },
     { href: "/akademik/video", label: "Video Pembelajaran" },
   ];
-
   return (
     <header className="sticky top-0 z-50 bg-base-100/90 supports-[backdrop-filter]:bg-base-100/80 backdrop-blur shadow-sm">
       {/* =================== MOBILE =================== */}
@@ -196,6 +195,18 @@ export default function Navbar() {
                 </details>
               </li>
 
+              <li>
+                <NavLink
+                  to="/akademik/ppdb"
+                  className={({ isActive }) =>
+                    isActive ? "text-primary font-semibold" : ""
+                  }
+                  onClick={closeDrawer}
+                >
+                  PPDB
+                </NavLink>
+              </li>
+
               <li className="mt-2">
                 <NavLink
                   to="/login"
@@ -242,6 +253,16 @@ export default function Navbar() {
             openId={openId}
             setOpenId={setOpenId}
           />
+
+          <NavLink
+            to="/ppdb"
+            className={({ isActive }) =>
+              `btn btn-soft ${isActive ? "btn-active" : ""}`
+            }
+            aria-label="Halaman PPDB"
+          >
+            PPDB
+          </NavLink>
 
           <NavLink
             to="/login"

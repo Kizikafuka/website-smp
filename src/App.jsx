@@ -1,5 +1,5 @@
 // src/App.jsx
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
@@ -14,8 +14,9 @@ import EksPage from "./pages/EksPage.jsx";
 import InfoPage from "./pages/InfoPage.jsx";
 import MaterialsTasksPage from "./pages/MaterialsTasksPage.jsx";
 import VideosPage from "./pages/VideosPage.jsx";
-import ScrollToTop from "./components/ScrollToTop";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
+import PpdbPage from "./pages/Ppdb.jsx";
 
 export default function App() {
   return (
@@ -25,12 +26,17 @@ export default function App() {
         <Navbar />
         <main className="flex-1">
           <Routes>
+            {/* Landing */}
             <Route path="/" element={<LandingPage />} />
+
+            {/* Profil */}
             <Route path="/profil/tentang" element={<AboutUs />} />
             <Route path="/profil/guru-staff" element={<TeachersPage />} />
             <Route path="/profil/galeri" element={<GalleryPage />} />
             <Route path="/profil/berita" element={<NewsPage />} />
             <Route path="/profil/berita/:slug" element={<NewsDetailPage />} />
+
+            {/* Akademik */}
             <Route path="/akademik/ekstrakurikuler" element={<EksPage />} />
             <Route path="/akademik/informasi" element={<InfoPage />} />
             <Route
@@ -38,7 +44,19 @@ export default function App() {
               element={<MaterialsTasksPage />}
             />
             <Route path="/akademik/video" element={<VideosPage />} />
+
+            {/* PPDB (tombol sendiri) */}
+            <Route path="/akademik/ppdb" element={<PpdbPage />} />
+            {/* Alias URL pendek */}
+            <Route
+              path="/ppdb"
+              element={<Navigate to="/akademik/ppdb" replace />}
+            />
+
+            {/* Auth */}
             <Route path="/login" element={<LoginPage />} />
+
+            {/* 404 */}
             <Route
               path="*"
               element={<div className="p-8">Halaman tidak ditemukan</div>}

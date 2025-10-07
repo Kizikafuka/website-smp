@@ -2,14 +2,7 @@
 import { Link } from "react-router-dom";
 import calendarIcon from "../assets/icons/calendar.svg";
 
-export default function NewsCard({
-  img,
-  judul,
-  ringkas,
-  tanggal, // ISO string e.g. "2025-07-09"
-  slug,
-}) {
-  // Format tanggal ke bahasa Indonesia dengan fallback
+export default function NewsCard({ img, judul, ringkas, tanggal, slug }) {
   let tanggalID = "";
   if (tanggal) {
     try {
@@ -19,7 +12,7 @@ export default function NewsCard({
         year: "numeric",
       });
     } catch {
-      tanggalID = tanggal; // fallback raw string
+      tanggalID = tanggal;
     }
   }
 
@@ -39,7 +32,7 @@ export default function NewsCard({
             alt={judul}
             loading="lazy"
             decoding="async"
-            className="w-full aspect-[16/9] object-cover transition-transform duration-300 hover:scale-105"
+            className="w-full aspect-[16/9] object-cover"
           />
         </figure>
       )}
@@ -49,7 +42,7 @@ export default function NewsCard({
         {/* Judul */}
         <h2
           id={headingId}
-          className="text-xl sm:text-2xl font-semibold line-clamp-2"
+          className="text-xl sm:text-2xl font-semibold text-primary line-clamp-2"
         >
           {judul}
         </h2>
