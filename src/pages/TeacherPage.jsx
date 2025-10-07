@@ -110,11 +110,6 @@ export default function TeachersPage() {
           >
             Daftar Guru &amp; Staf
           </h1>
-          <p className="mt-2 text-sm text-base-content/70">
-            {filtered.length} data ditemukan
-            {q ? ` untuk “${q}”` : ""}
-            {gender ? ` — ${gender}` : ""}
-          </p>
         </header>
 
         {/* ===== FILTER TOOLBAR (match EksPage) ===== */}

@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/icons/logo.png";
@@ -46,6 +45,7 @@ function NavDropdown({ id, label, items, align = "start", openId, setOpenId }) {
       <button
         type="button"
         onClick={toggle}
+        onMouseDown={(e) => e.stopPropagation()} // cegah bubbling ke document
         aria-haspopup="menu"
         aria-expanded={isOpen}
         className="btn btn-ghost"
@@ -56,6 +56,7 @@ function NavDropdown({ id, label, items, align = "start", openId, setOpenId }) {
       <ul
         className="dropdown-content menu bg-base-100 rounded-box w-56 p-2 shadow z-50"
         role="menu"
+        onMouseDown={(e) => e.stopPropagation()} // ekstra guard
       >
         {items.map((it) => (
           <li key={it.href} role="none">
@@ -83,6 +84,7 @@ export default function Navbar() {
   const [openId, setOpenId] = useState(null);
   const location = useLocation();
 
+  // Tutup semua dropdown saat route berubah
   useEffect(() => {
     setOpenId(null);
   }, [location.key]);
@@ -99,6 +101,7 @@ export default function Navbar() {
     { href: "/akademik/materi-tugas", label: "Materi & Tugas" },
     { href: "/akademik/video", label: "Video Pembelajaran" },
   ];
+
   return (
     <header className="sticky top-0 z-50 bg-base-100/90 supports-[backdrop-filter]:bg-base-100/80 backdrop-blur shadow-sm">
       {/* =================== MOBILE =================== */}

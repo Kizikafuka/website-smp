@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 import GalleryCard from "../components/GalleryCard.jsx";
+import Lightbox from "../components/Lightbox.jsx";
 import Pagination from "../components/Pagination.jsx";
 import img1 from "../assets/images/hero.jpg";
 
@@ -25,6 +26,25 @@ export default function GalleryPage() {
     return allPhotos.slice(start, start + pageSize);
   }, [allPhotos, page, pageSize]);
 
+  // Lightbox state (dikelola di Page)
+  const [lbOpen, setLbOpen] = useState(false);
+  const [lbIndex, setLbIndex] = useState(0);
+
+  const openAt = useCallback((idx) => {
+    setLbIndex(idx);
+    setLbOpen(true);
+  }, []);
+
+  const closeLb = useCallback(() => setLbOpen(false), []);
+
+  const next = useCallback(() => {
+    setLbIndex((i) => (i + 1) % currentItems.length);
+  }, [currentItems.length]);
+
+  const prev = useCallback(() => {
+    setLbIndex((i) => (i - 1 + currentItems.length) % currentItems.length);
+  }, [currentItems.length]);
+
   return (
     <main className="px-4 sm:px-8 lg:px-24 py-8" aria-labelledby="page-title">
       <div className="max-w-screen-2xl mx-auto">
@@ -48,13 +68,14 @@ export default function GalleryPage() {
               </p>
             </div>
           ) : (
-            <div
-              className="columns-1 sm:columns-2 lg:columns-3 gap-6 [column-fill:balance]"
-              // Tiap child harus 'break-inside-avoid' supaya kartu tidak terpotong
-            >
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 [column-fill:balance]">
               {currentItems.map((item, i) => (
                 <div key={`${page}-${i}`} className="mb-6 break-inside-avoid">
-                  <GalleryCard {...item} eager={i < 3} />
+                  <GalleryCard
+                    {...item}
+                    eager={i < 3}
+                    onOpen={() => openAt(i)}
+                  />
                 </div>
               ))}
             </div>
@@ -64,6 +85,17 @@ export default function GalleryPage() {
           <Pagination page={page} totalPages={totalPages} onChange={setPage} />
         </section>
       </div>
+
+      {/* Lightbox */}
+      {lbOpen && (
+        <Lightbox
+          items={currentItems}
+          index={lbIndex}
+          onClose={closeLb}
+          onNext={next}
+          onPrev={prev}
+        />
+      )}
     </main>
   );
 }
