@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+// src/pages/InfoPage.jsx
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import InfoCard from "../components/InfoCard.jsx";
 import Pagination from "../components/Pagination.jsx";
@@ -67,14 +68,15 @@ export default function InfoPage() {
 
     (async () => {
       try {
-        const data = await fetchInfo();
-        if (cancelled) return;
+        const maybePromise = fetchInfo({ signal: ac.signal });
+        const data = await (maybePromise?.then ? maybePromise : fetchInfo());
 
         const sorted = [...data].sort((a, b) => {
           const da = new Date(a.tanggal).getTime();
           const db = new Date(b.tanggal).getTime();
-          // guard NaN => treat invalid dates as 0 so they sink to bottom
-          return (isNaN(db) ? 0 : db) - (isNaN(da) ? 0 : da);
+          const sa = isNaN(da) ? 0 : da;
+          const sb = isNaN(db) ? 0 : db;
+          return sb - sa;
         });
 
         setItems(sorted);
@@ -237,9 +239,13 @@ export default function InfoPage() {
         </div>
 
         {loading ? (
-          <div role="status" aria-busy="true" className="flex flex-col gap-4">
-            {/* DaisyUI skeletons */}
-            {Array.from({ length: 3 }).map((_, i) => (
+          <div
+            role="status"
+            aria-busy="true"
+            aria-live="polite"
+            className="flex flex-col gap-4"
+          >
+            {Array.from({ length: pageSize }).map((_, i) => (
               <div
                 key={i}
                 className="skeleton h-28 rounded-box border border-base-200"
@@ -247,11 +253,31 @@ export default function InfoPage() {
             ))}
           </div>
         ) : err ? (
-          <div className="alert alert-error" role="alert">
+          <div className="alert alert-error" role="alert" aria-live="assertive">
             <span>Gagal memuat data. Coba lagi nanti.</span>
+            <button className="btn btn-sm ml-auto" onClick={onRetry}>
+              Muat ulang
+            </button>
           </div>
-        ) : currentItems.length === 0 ? (
-          <p className="text-base-content/70">Belum ada informasi.</p>
+        ) : filtered.length === 0 ? (
+          <div
+            className="text-base-content/70 flex flex-col items-center gap-2"
+            aria-live="polite"
+          >
+            <p>Tidak ada hasil untuk pencarianmu.</p>
+            {q && (
+              <button
+                className="btn btn-sm btn-outline mt-2"
+                onClick={() => {
+                  setQ("");
+                  setPage(1);
+                  inputRef.current?.focus();
+                }}
+              >
+                Hapus pencarian
+              </button>
+            )}
+          </div>
         ) : (
           <>
             <div className="flex flex-col gap-4" aria-live="polite">
