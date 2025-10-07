@@ -2,7 +2,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar.jsx";
-import Footer from "./components/Footer.jsx";
+import Footer from "./components/footer.jsx";
 
 import LandingPage from "./pages/LandingPage.jsx";
 import AboutUs from "./pages/AboutUs.jsx";
