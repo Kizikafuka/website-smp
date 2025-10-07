@@ -1,7 +1,7 @@
 // src/pages/VideosPage.jsx
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
-import VideosTable from "../components/Table/videotable.jsx";
+import VideosTable from "../components/Table/VideosTable.jsx";
 import Pagination from "../components/Pagination.jsx";
 
 function normalizeText(s) {
