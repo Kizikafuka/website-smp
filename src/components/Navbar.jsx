@@ -39,14 +39,12 @@ function NavDropdown({ id, label, items, align = "start", openId, setOpenId }) {
   return (
     <div
       ref={ref}
-      tabIndex={0} /* DaisyUI focuses the container */
       className={`dropdown ${isOpen ? "dropdown-open" : ""} ${
         align === "end" ? "dropdown-end" : ""
       }`}
     >
       <button
         type="button"
-        tabIndex={0} /* DaisyUI expects a focusable trigger */
         onClick={toggle}
         aria-haspopup="menu"
         aria-expanded={isOpen}
@@ -56,7 +54,6 @@ function NavDropdown({ id, label, items, align = "start", openId, setOpenId }) {
       </button>
 
       <ul
-        tabIndex={0} /* DaisyUI expects the content to be focusable */
         className="dropdown-content menu bg-base-100 rounded-box w-56 p-2 shadow z-50"
         role="menu"
       >
@@ -66,11 +63,11 @@ function NavDropdown({ id, label, items, align = "start", openId, setOpenId }) {
               to={it.href}
               role="menuitem"
               className={({ isActive }) =>
-                `justify-between ${isActive ? "active font-semibold" : ""}`
+                `justify-between hover:bg-base-300 transition-colors ${
+                  isActive ? "text-primary font-semibold" : ""
+                }`
               }
-              /* Close BEFORE navigation so state doesn't race the route change */
               onPointerDown={close}
-              /* Extra safety on click (touch-only devices) */
               onClick={close}
             >
               {it.label}
@@ -86,12 +83,10 @@ export default function Navbar() {
   const [openId, setOpenId] = useState(null);
   const location = useLocation();
 
-  /** Close any open desktop dropdown on ANY navigation (key changes every push) */
   useEffect(() => {
     setOpenId(null);
   }, [location.key]);
 
-  // ================= MENU DATA =================
   const profilItems = [
     { href: "/profil/tentang", label: "Tentang" },
     { href: "/profil/guru-staff", label: "Guru & Staf" },
@@ -104,24 +99,19 @@ export default function Navbar() {
     { href: "/akademik/materi-tugas", label: "Materi & Tugas" },
     { href: "/akademik/video", label: "Video Pembelajaran" },
   ];
-  const akunItems = [
-    { href: "/akun/login", label: "Login" },
-    { href: "/akun/daftar", label: "Daftar" },
-  ];
 
   return (
-    <header className="sticky top-0 z-50 bg-base-100/90 backdrop-blur shadow-sm">
-      {/* =================== MOBILE (Drawer) =================== */}
+    <header className="sticky top-0 z-50 bg-base-100/90 supports-[backdrop-filter]:bg-base-100/80 backdrop-blur shadow-sm">
+      {/* =================== MOBILE =================== */}
       <div className="lg:hidden">
         <div className="drawer">
           <input id="nav-drawer" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content">
             <div className="navbar max-w-screen-2xl mx-auto px-6">
               <div className="flex-none">
-                {/* hamburger opens drawer */}
                 <label
                   htmlFor="nav-drawer"
-                  aria-label="open sidebar"
+                  aria-label="Buka menu navigasi"
                   className="btn btn-ghost btn-square"
                 >
                   <svg
@@ -142,7 +132,6 @@ export default function Navbar() {
               </div>
 
               <div className="flex-1 flex items-center pl-2">
-                {/* Logo */}
                 <Link
                   to="/"
                   className="inline-flex items-center"
@@ -150,23 +139,21 @@ export default function Navbar() {
                 >
                   <img
                     src={logo}
-                    alt="Logo"
-                    className="w-12 h-12 object-contain pointer-events-auto"
+                    alt="Logo SMPN 10 Balikpapan"
+                    className="w-12 h-12 object-contain"
                   />
                 </Link>
               </div>
             </div>
           </div>
 
-          {/* Drawer side menu */}
           <div className="drawer-side">
             <label
               htmlFor="nav-drawer"
-              aria-label="close sidebar"
+              aria-label="Tutup menu navigasi"
               className="drawer-overlay"
             ></label>
-            <ul className="menu bg-base-200 min-h-full w-80 p-4">
-              {/* Profil */}
+            <ul className="menu bg-base-200 min-h-full w-80 p-4 text-base-content">
               <li>
                 <details>
                   <summary>Profil</summary>
@@ -176,7 +163,7 @@ export default function Navbar() {
                         <NavLink
                           to={it.href}
                           className={({ isActive }) =>
-                            isActive ? "active font-semibold" : ""
+                            isActive ? "text-primary font-semibold" : ""
                           }
                           onClick={closeDrawer}
                         >
@@ -188,7 +175,6 @@ export default function Navbar() {
                 </details>
               </li>
 
-              {/* Akademik */}
               <li>
                 <details>
                   <summary>Akademik</summary>
@@ -198,7 +184,7 @@ export default function Navbar() {
                         <NavLink
                           to={it.href}
                           className={({ isActive }) =>
-                            isActive ? "active font-semibold" : ""
+                            isActive ? "text-primary font-semibold" : ""
                           }
                           onClick={closeDrawer}
                         >
@@ -210,26 +196,19 @@ export default function Navbar() {
                 </details>
               </li>
 
-              {/* Akun */}
-              <li>
-                <details>
-                  <summary>Akun</summary>
-                  <ul>
-                    {akunItems.map((it) => (
-                      <li key={it.href}>
-                        <NavLink
-                          to={it.href}
-                          className={({ isActive }) =>
-                            isActive ? "active font-semibold" : ""
-                          }
-                          onClick={closeDrawer}
-                        >
-                          {it.label}
-                        </NavLink>
-                      </li>
-                    ))}
-                  </ul>
-                </details>
+              <li className="mt-2">
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    `btn btn-primary w-full ${
+                      isActive ? "btn-active" : ""
+                    } transition`
+                  }
+                  onClick={closeDrawer}
+                  aria-label="Masuk ke akun"
+                >
+                  Masuk
+                </NavLink>
               </li>
             </ul>
           </div>
@@ -242,8 +221,8 @@ export default function Navbar() {
           <Link to="/" className="inline-flex items-center">
             <img
               src={logo}
-              alt="Logo"
-              className="w-16 h-16 object-contain pointer-events-auto"
+              alt="Logo SMPN 10 Balikpapan"
+              className="w-16 h-16 object-contain"
             />
           </Link>
         </div>
@@ -263,14 +242,14 @@ export default function Navbar() {
             openId={openId}
             setOpenId={setOpenId}
           />
-          <NavDropdown
-            id="akun"
-            label="Akun"
-            items={akunItems}
-            align="end"
-            openId={openId}
-            setOpenId={setOpenId}
-          />
+
+          <NavLink
+            to="/login"
+            className="btn btn-primary"
+            aria-label="Masuk ke akun"
+          >
+            Masuk
+          </NavLink>
         </div>
       </div>
     </header>

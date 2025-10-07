@@ -88,8 +88,8 @@ export default function Footer() {
       links: [
         { label: "Informasi", href: "/akademik/informasi" },
         { label: "Ekstrakulikuler", href: "/akademik/ekstrakurikuler" },
-        { label: "Materi & Tugas", href: "/akademik/materi-tugas" }, // fixed: leading slash
-        { label: "Video Pembelajaran", href: "/akademik/video" }, // fixed: leading slash
+        { label: "Materi & Tugas", href: "/akademik/materi-tugas" },
+        { label: "Video Pembelajaran", href: "/akademik/video" },
       ],
     },
   ];
@@ -113,7 +113,7 @@ export default function Footer() {
     <>
       {/* Main footer */}
       <footer
-        className="footer sm:footer-horizontal bg-[#15375A] text-neutral-content px-4 sm:px-8 lg:px-24 py-12"
+        className="footer sm:footer-horizontal bg-primary text-primary-content px-4 sm:px-8 lg:px-24 py-12"
         aria-labelledby="footer-heading"
       >
         <h2 id="footer-heading" className="sr-only">
@@ -123,11 +123,16 @@ export default function Footer() {
         {/* Generated sections */}
         {sections.map(({ title, links }) => (
           <nav key={title} aria-label={title}>
-            <h3 className="text-white text-xl font-extrabold mb-3">{title}</h3>
+            <h3 className="text-primary-content text-xl font-extrabold mb-3">
+              {title}
+            </h3>
             <ul className="space-y-1">
               {links.map(({ label, href }) => (
                 <li key={label}>
-                  <Link to={href} className="link link-hover text-white/90">
+                  <Link
+                    to={href}
+                    className="link link-hover text-primary-content/90 hover:text-primary-content transition"
+                  >
                     {label}
                   </Link>
                 </li>
@@ -138,7 +143,7 @@ export default function Footer() {
 
         {/* Contact */}
         <nav aria-label="Kontak Kami">
-          <h3 className="text-white text-xl font-extrabold mb-3">
+          <h3 className="text-primary-content text-xl font-extrabold mb-3">
             Kontak Kami
           </h3>
 
@@ -146,7 +151,7 @@ export default function Footer() {
             <li>
               <a
                 href={contact.phone.href}
-                className="link link-hover text-white/90 flex items-center gap-2"
+                className="link link-hover text-primary-content/90 hover:text-primary-content flex items-center gap-2 transition"
               >
                 <PhoneIcon />
                 <span className="select-all">{contact.phone.label}</span>
@@ -156,7 +161,7 @@ export default function Footer() {
             <li>
               <a
                 href={contact.email.href}
-                className="link link-hover text-white/90 flex items-center gap-2"
+                className="link link-hover text-primary-content/90 hover:text-primary-content flex items-center gap-2 transition"
               >
                 <MailIcon />
                 <span className="break-all">{contact.email.label}</span>
@@ -168,7 +173,7 @@ export default function Footer() {
                 href={contact.address.mapHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/90 flex items-start gap-2 max-w-sm leading-tight hover:text-white transition"
+                className="text-primary-content/90 hover:text-primary-content flex items-start gap-2 max-w-sm leading-tight transition"
               >
                 <PinIcon />
                 <address className="not-italic">
@@ -182,7 +187,7 @@ export default function Footer() {
       </footer>
 
       {/* Copyright */}
-      <footer className="footer footer-center bg-[#143250] text-white/70 px-4 sm:px-8 lg:px-24 py-4">
+      <footer className="footer footer-center bg-accent text-primary-content px-4 sm:px-8 lg:px-24 py-4">
         <aside>
           <p className="text-sm">
             © {year} — Sekolah Menengah Pertama Negeri 10 Balikpapan

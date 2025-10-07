@@ -1,7 +1,7 @@
 // src/pages/VideosPage.jsx
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
-import VideosTable from "../components/table/VideoTable.jsx";
+import VideosTable from "../components/Table/VideoTable.jsx";
 import Pagination from "../components/Pagination.jsx";
 
 export default function VideosPage() {

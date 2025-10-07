@@ -1,64 +1,68 @@
-// src/pages/GalleryPage.jsx
 import { useMemo, useState } from "react";
 import GalleryCard from "../components/GalleryCard.jsx";
 import Pagination from "../components/Pagination.jsx";
-
 import img1 from "../assets/images/hero.jpg";
 
 export default function GalleryPage() {
   // Dummy data (replace with backend later)
   const allPhotos = useMemo(
     () =>
-      Array.from({ length: 13 }).map((_, i) => ({
+      Array.from({ length: 21 }).map((_, i) => ({
         src: img1,
-        title: `Hero ${i + 1}`,
+        title: `Kegiatan ${i + 1}`,
         desc: "Dokumentasi upacara hari Senin.",
       })),
     []
   );
 
-  const pageSize = 9; // 3 x 3
+  // Paging only (no filter/search)
+  const pageSize = 12;
   const [page, setPage] = useState(1);
 
-  const totalPages = useMemo(
-    () => Math.max(1, Math.ceil(allPhotos.length / pageSize)),
-    [allPhotos.length]
-  );
-
+  const totalPages = Math.max(1, Math.ceil(allPhotos.length / pageSize));
   const currentItems = useMemo(() => {
     const start = (page - 1) * pageSize;
     return allPhotos.slice(start, start + pageSize);
-  }, [allPhotos, page]);
+  }, [allPhotos, page, pageSize]);
 
   return (
-    <main className="px-4 sm:px-8 lg:px-24 py-8">
+    <main className="px-4 sm:px-8 lg:px-24 py-8" aria-labelledby="page-title">
       <div className="max-w-screen-2xl mx-auto">
-        <h1
-          id="page-title"
-          className="text-3xl sm:text-4xl font-extrabold text-center mb-10"
-        >
-          Galeri
-        </h1>
+        {/* Title */}
+        <header className="mb-6">
+          <h1
+            id="page-title"
+            className="text-3xl sm:text-4xl font-extrabold text-primary text-center"
+          >
+            Galeri
+          </h1>
+        </header>
 
-        {currentItems.length === 0 ? (
-          <p className="text-center text-base-content/60">Belum ada foto.</p>
-        ) : (
-          <>
-            {/* Grid: 1 / 2 / 3 kolom */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Masonry */}
+        <section>
+          {currentItems.length === 0 ? (
+            <div className="rounded-box border border-base-200 bg-base-100 p-8 text-center">
+              <div className="text-lg font-semibold">Belum ada foto</div>
+              <p className="mt-1 text-base-content/70">
+                Konten galeri akan tampil di sini.
+              </p>
+            </div>
+          ) : (
+            <div
+              className="columns-1 sm:columns-2 lg:columns-3 gap-6 [column-fill:balance]"
+              // Tiap child harus 'break-inside-avoid' supaya kartu tidak terpotong
+            >
               {currentItems.map((item, i) => (
-                <GalleryCard key={`${page}-${i}`} {...item} eager={i < 3} />
+                <div key={`${page}-${i}`} className="mb-6 break-inside-avoid">
+                  <GalleryCard {...item} eager={i < 3} />
+                </div>
               ))}
             </div>
+          )}
 
-            {/* Pagination */}
-            <Pagination
-              page={page}
-              totalPages={totalPages}
-              onChange={setPage}
-            />
-          </>
-        )}
+          {/* Pagination */}
+          <Pagination page={page} totalPages={totalPages} onChange={setPage} />
+        </section>
       </div>
     </main>
   );

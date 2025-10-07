@@ -1,7 +1,7 @@
 // src/pages/MaterialsTasksPage.jsx
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import MaterialsTable from "../components/table/MaterialsTable.jsx";
+import MaterialsTable from "../components/Table/MaterialsTable.jsx";
 import Pagination from "../components/Pagination.jsx";
 
 export default function MaterialsTasksPage() {
