@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import logo from "../assets/icons/logo.png";
+import logo from "../assets/icons/Logo.png";
 
 /** Close when clicking outside / pressing Esc (desktop dropdown only) */
 function useOutsideCloser(isOpen, onClose) {

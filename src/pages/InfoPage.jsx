@@ -1,7 +1,7 @@
 // src/pages/InfoPage.jsx
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
-import InfoCard from "../components/InfoCard.jsx";
+import InfoCard from "../components/infocard.jsx";
 import Pagination from "../components/Pagination.jsx";
 import { fetchInfo } from "../lib/fetchInfo.js";
 
