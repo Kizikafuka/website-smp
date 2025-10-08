@@ -16,7 +16,7 @@ import MaterialsTasksPage from "./pages/MaterialsTasksPage.jsx";
 import VideosPage from "./pages/VideosPage.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
-import PpdbPage from "./pages/Ppdb.jsx";
+import SpmbPage from "./pages/Spmb.jsx";
 
 export default function App() {
   return (
@@ -46,7 +46,7 @@ export default function App() {
             <Route path="/akademik/video" element={<VideosPage />} />
 
             {/* PPDB (tombol sendiri) */}
-            <Route path="/akademik/ppdb" element={<PpdbPage />} />
+            <Route path="/spmb" element={<SpmbPage />} />
             {/* Alias URL pendek */}
             <Route
               path="/ppdb"

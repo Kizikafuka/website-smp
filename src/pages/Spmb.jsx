@@ -1,4 +1,4 @@
-// src/pages/PpdbPage.jsx
+// src/pages/Spmb.jsx
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -21,7 +21,7 @@ function getRemaining(targetDate) {
   return { diff, days, hours, minutes, seconds };
 }
 
-export default function PpdbPage() {
+export default function SpmbPage() {
   const target = useMemo(() => new Date(TARGET_OPEN), []);
   const [remain, setRemain] = useState(() => getRemaining(target));
   const isOpen = remain.diff === 0;
@@ -32,8 +32,8 @@ export default function PpdbPage() {
   }, [target]);
 
   const ariaCounter = isOpen
-    ? "Pendaftaran PPDB telah dibuka"
-    : `Pembukaan PPDB dalam ${remain.days} hari, ${remain.hours} jam, ${remain.minutes} menit, ${remain.seconds} detik`;
+    ? "Pendaftaran SPMB telah dibuka"
+    : `Pembukaan SPMB dalam ${remain.days} hari, ${remain.hours} jam, ${remain.minutes} menit, ${remain.seconds} detik`;
 
   return (
     <main className="px-4 sm:px-8 lg:px-24 py-8" aria-labelledby="page-title">
@@ -47,7 +47,7 @@ export default function PpdbPage() {
             id="page-title"
             className="mt-2 text-3xl sm:text-4xl font-extrabold text-primary"
           >
-            PPDB — Coming Soon
+            SPMB — Coming Soon
           </h1>
           <p className="mt-3 text-base sm:text-lg text-base-content/80">
             Persiapkan berkasmu. Pendaftaran akan dibuka pada{" "}
@@ -79,7 +79,7 @@ export default function PpdbPage() {
             <div className="alert alert-success w-full sm:w-auto">
               <span className="font-semibold">Pendaftaran dibuka!</span>
               <Link
-                to="/akademik/ppdb/form"
+                to="/akademik/spmb/form"
                 className="btn btn-success btn-sm ml-2"
               >
                 Daftar Sekarang

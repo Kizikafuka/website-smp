@@ -200,13 +200,13 @@ export default function Navbar() {
 
               <li>
                 <NavLink
-                  to="/akademik/ppdb"
+                  to="/spmb"
                   className={({ isActive }) =>
                     isActive ? "text-primary font-semibold" : ""
                   }
                   onClick={closeDrawer}
                 >
-                  PPDB
+                  SPMB
                 </NavLink>
               </li>
 
@@ -258,13 +258,13 @@ export default function Navbar() {
           />
 
           <NavLink
-            to="/ppdb"
+            to="/spmb"
             className={({ isActive }) =>
               `btn btn-soft ${isActive ? "btn-active" : ""}`
             }
-            aria-label="Halaman PPDB"
+            aria-label="Halaman SPMB"
           >
-            PPDB
+            SPMB
           </NavLink>
 
           <NavLink

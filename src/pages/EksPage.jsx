@@ -103,7 +103,7 @@ export default function EksPage() {
       },
       {
         name: "Jurnalistik",
-        coach: "Bu Laila",
+        coach: "Bu SomCs",
         schedule: "Selasa 15.30–17.00",
         location: "Ruang Multimedia",
         photo: sampleImg,
