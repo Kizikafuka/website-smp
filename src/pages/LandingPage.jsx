@@ -106,11 +106,11 @@ export default function LandingPage() {
       <section className="mt-10 px-4 sm:px-8 lg:px-24">
         <div className="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           <Link
-            to="/ppdb"
+            to="/spmb"
             className="card bg-base-100 border border-base-200 hover:shadow-md transition-shadow"
           >
             <div className="card-body text-base-content">
-              <h3 className="card-title text-primary">PPDB</h3>
+              <h3 className="card-title text-primary">SPMB</h3>
               <p>
                 Informasi penerimaan peserta didik baru, jadwal, dan
                 persyaratan.

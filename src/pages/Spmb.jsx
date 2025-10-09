@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
  * GANTI TANGGAL TARGET DI SINI
  * Format ISO: YYYY-MM-DDTHH:mm:ss+08:00 (Makassar = UTC+08:00)
  */
-const TARGET_OPEN = "2025-11-01T08:00:00+08:00";
+const TARGET_OPEN = "2025-11-07T24:00:00+08:00";
 
 function getRemaining(targetDate) {
   const now = Date.now();
